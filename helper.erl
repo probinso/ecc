@@ -85,7 +85,7 @@ extended_gcd(A, B) ->
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                        sqrt
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % this Integer sqrt requires P to be prime and [P = 3 (mod 4)]
 sqrt(I,P) when P rem 4 == 3 ->
     mod(pow(I,(P+1) div 4,P),P).
