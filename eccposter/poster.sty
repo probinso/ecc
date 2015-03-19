@@ -1,0 +1,191 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This is file 'poster.sty'
+%% It provides poster package.
+%% ===================================
+%% Author: Farshid Delgosha
+%%         326004 Georgia Tech Station
+%%         Atlanta, GA 30332-1085
+%%         U.S.A.
+%% E-mail: delgosha@ieee.org
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{poster}[2005/01/01 1.2 poster]
+
+\newif\if@squeeze       \@squeezefalse
+\newif\if@frame         \@frametrue
+\newif\if@palatino      \@palatinofalse
+\newif\if@helvet        \@helvettrue
+
+
+\DeclareOption{squeeze}{\@squeezetrue}
+\DeclareOption{noframe}{\@framefalse}
+\DeclareOption{palatino}{\@palatinotrue}
+\DeclareOption{helvet}{\@helvettrue}
+
+
+\ExecuteOptions{helvet}
+\ProcessOptions*
+
+
+
+\RequirePackage{a0size}
+\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage{epsfig}
+\RequirePackage{multicol}
+\RequirePackage{pstricks}
+\RequirePackage{pst-text}
+
+
+\if@palatino
+   \RequirePackage{palatino}
+   \RequirePackage{alltt}
+\fi
+
+
+\if@helvet
+   \RequirePackage[scaled=0.92]{helvet}
+   \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+
+\if@squeeze
+   \setlength{\abovedisplayskip}{8pt plus 1pt minus 5pt}
+   \setlength{\belowdisplayskip}{8pt plus 1pt minus 5pt}
+\fi
+
+
+% Compensating the horizontal offset
+\setlength{\hoffset}{-.25in}
+
+% Definging Georgia Tech official navy blue
+\definecolor{gtblue}{rgb}{0.00,0.168,0.332}
+\definecolor{gray70}{rgb}{0.7,0.7,0.7}
+
+% Defining colors
+\newcommand{\titlecolor}{gtblue}
+\newcommand{\titlesepcolor}{gtblue}
+\newcommand{\framecolor}{gray70}
+\newcommand{\headercolor}{MidnightBlue}
+\newcommand{\bodycolor}{gtblue}
+\newcommand{\slidecolor}{white}
+\newcommand{\itemicolor}{Violet}
+\newcommand{\itemiicolor}{NavyBlue}
+\newcommand{\itemiiicolor}{RoyalBlue}
+
+% Font sizes
+\newcommand{\titlefontsize}{\Huge}
+\newcommand{\authorfontsize}{\Large}
+\newcommand{\slideheaderfontsize}{\LARGE}
+\newcommand{\bodyfontsize}{\Large}
+\newcommand{\headerfontsize}{\LARGE}
+
+% Defining some other parameters
+\newcommand{\framearc}{.1}
+\newlength{\framelinewidth}
+\setlength{\framelinewidth}{2pt}
+\newlength{\titlesepwidth}
+\setlength{\titlesepwidth}{3pt}
+\newlength{\framemargin}
+\setlength{\framemargin}{.3in}
+
+% For the style file use only
+\newlength{\framewidth}
+\newsavebox{\slidebox}
+
+% At the beginning of the document
+\AtBeginDocument{\bodyfontsize}
+\AtBeginDocument{\color{\bodycolor}}
+\AtBeginDocument{\renewcommand{\labelitemi}{\color{\itemicolor}$\bullet$}}
+\AtBeginDocument{\renewcommand{\labelitemii}{\color{\itemiicolor}$-$}}
+\AtBeginDocument{\renewcommand{\labelitemiii}{\color{\itemiiicolor}$*$}}
+\AtBeginDocument{\begin{centering}}
+
+% At the end of the document
+\AtEndDocument{\end{centering}}
+
+
+
+
+%---------------------------------------------------------------------------------------
+% Some deeper modifications
+%---------------------------------------------------------------------------------------
+\makeatletter
+
+
+%-------------------------------------------
+% Redefining maketitle
+%-------------------------------------------
+\def\maketitle{%
+   \begin{minipage}{.2\textwidth}%
+      \flushleft
+      \epsfig{file=gatech.eps,width=7in}%
+   \end{minipage} \hfill
+%
+   \begin{minipage}{.575\textwidth}%
+      \begin{center}%
+         \color{\titlecolor}
+         {\bf\titlefontsize \@title \par}%
+         \vskip .5in
+         {\authorfontsize \@author \par}%
+      \end{center}
+   \end{minipage} \hfill
+%
+   \begin{minipage}{.2\textwidth}%
+      \flushright
+      \epsfig{file=csip.eps,width=4in}%
+   \end{minipage}%
+%
+   \vspace{.3in}
+   {\color{\titlesepcolor}\rule{\textwidth}{\titlesepwidth}}
+}%
+%-------------------------------------------
+
+
+
+%-------------------------------------------
+% Defining the header command
+%-------------------------------------------
+\newcommand{\header}[2][0]{%
+   \vspace{0.5in}
+   \begin{center}
+      \hspace*{#1\columnwidth} \textsc{\textbf{\underline{\color{\headercolor}\headerfontsize{#2}}}}
+   \end{center}
+   \vspace{.1in}
+}%
+%-------------------------------------------
+
+
+
+%-------------------------------------------
+% Defining the slide environment
+%-------------------------------------------
+\newenvironment{slide}[2][0]{%
+   \setlength{\framewidth}{.935\columnwidth}
+   \begin{lrbox}{\slidebox}
+   \begin{minipage}{\framewidth}
+      \begin{center}
+         \hspace*{#1\framewidth} \textcolor{\headercolor}{\textsc{\textit{\textbf{\underline{\slideheaderfontsize{#2}}}}}}
+      \end{center}
+      \vspace{.1in}\par
+}{%
+   \end{minipage}
+   \end{lrbox}
+   \if@frame
+      \setlength{\psframesep}{\framemargin}
+      \psframebox[linewidth=\framelinewidth,framearc=\framearc,linecolor=\framecolor,fillstyle=solid,fillcolor=\slidecolor]{\usebox{\slidebox}}
+   \else
+      \usebox{\slidebox}
+      \vspace{\framemargin}
+   \fi
+   \vspace{.75in}
+}%
+%-------------------------------------------
+
+
+\makeatother

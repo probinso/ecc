@@ -1,0 +1,43 @@
+This was a summer project to learn about Elliptic Curve Cryptography.
+The goals I presented on my way into this project were 
+  
+  1 - I enjoy Functional Programming
+  2 - I enjoy Cryptography
+  
+My advisor provided me with the prompt
+  'What can you do to Parallelize Elliptic Curve Encryption/Decryption?' 
+
+He suggested that I look at Erlang for its concurrent language features, and  
+  provided me with a short list of interesting text books to look at. I 
+  had to identify a cryptographic system that would lend its self to 
+  parallelization without loss in security. 
+  
+This was my first program in Erlang, my first exposure to Elliptic Curves, 
+  and my first time implementing public key cryptographic system.
+    
+This set of modules can be run if you have Erlang installed on your machine. 
+  The modules must be compiled in the Erlang environment. 
+    c(helper).
+    c(ellipticCurves).
+    c(massey_omura).
+    c(encrypt).
+    c(encrypt_p).
+    c(mytimer).
+
+- helper contains helper functions and optimized power/modulo features. 
+- ellipticCurves contains functions supporting operations over elliptic curves. 
+- massey_omura provides integer to point mapping facilities
+- encrypt provides a sequential encrypt/decrypt facility
+- encrypt_p provides a parallelized encrypt/decrypt facility
+- mytimer provides facilities to time parallelized encryption/decryption 
+    
+I was then asked to write a report on my chosen system and produce a poster 
+  that would be presented later in the year. I took it upon myself to also 
+  begin work on a 'Sage' worksheet that would help to explain the process 
+  in an educational capacity. 
+  
+My final write ups can be found on my website : http://probinso.dyn-o-saur.com
+
+Further questions can be routed to my e-mail address : pmoss.robinson@gmail.com
+
+
